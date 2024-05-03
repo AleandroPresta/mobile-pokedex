@@ -39,7 +39,7 @@ async function fetchPokemonDataBeforeRedirect(id) {
                     res.json()
                 }
             ),
-        ])
+        ]);
     return true;
     } catch (error) {
         console.error("Failed to fetch Pokemon data before redirect")
