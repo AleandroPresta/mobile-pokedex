@@ -113,9 +113,9 @@ function handleSearch() {
 
     displayPokemons(filteredPokemons);
 
-    /*if (filteredPokemons.length === 0) {
+    if (filteredPokemons.length === 0) {
         notFoundMessage.style.display = "block";
     } else {
         notFoundMessage.style.display = "none";
-    } */
+    }
 }
