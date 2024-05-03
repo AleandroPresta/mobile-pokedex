@@ -13,7 +13,6 @@ fetch(`https://pokeapi.co/api/v2/pokemon?limit=${MAX_POKEMON}`)
     .then((response) => response.json())
     .then((data) => {
         allPokemons = data.results;
-        console.log(allPokemons);
         displayPokemons(allPokemons);
     });
 
@@ -83,4 +82,40 @@ function displayPokemons(pokemon) {
             listWrapper.appendChild(listItem);
         }
     )
+}
+
+// Handeling the search functionality
+searchInput.addEventListener("keyup", handleSearch);
+
+function handleSearch() {
+    const searchTerm = searchInput.value.toLowerCase();
+    let filteredPokemons;
+
+    // Search by number
+    if (numberFilter.checked) {
+        filteredPokemons = allPokemons.filter(
+            (pokemon) => {
+                const pokemonId = pokemon.url.split("/")[6];
+                return pokemonId.startsWith(searchTerm);
+            }
+        )
+    // Search by name
+    } else if (nameFilter.checked) {
+        filteredPokemons = allPokemons.filter(
+            (pokemon) => {
+                const pokemonName = pokemon.name.toLowerCase();
+                return pokemonName.startsWith(searchTerm);
+            }
+        );
+    } else {
+        filteredPokemons = allPokemons;
+    }
+
+    displayPokemons(filteredPokemons);
+
+    /*if (filteredPokemons.length === 0) {
+        notFoundMessage.style.display = "block";
+    } else {
+        notFoundMessage.style.display = "none";
+    } */
 }
