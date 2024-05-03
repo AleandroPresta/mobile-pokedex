@@ -13,6 +13,8 @@ fetch(`https://pokeapi.co/api/v2/pokemon?limit=${MAX_POKEMON}`)
     .then((response) => response.json())
     .then((data) => {
         allPokemons = data.results;
+        console.log(allPokemons);
+        displayPokemons(allPokemons);
     });
 
 /* 
@@ -43,4 +45,40 @@ async function fetchPokemonDataBeforeRedirect(id) {
     } catch (error) {
         console.error("Failed to fetch Pokemon data before redirect")
     }
+}
+
+function displayPokemons(pokemon) {
+    listWrapper.innerHTML = "";
+
+    pokemon.forEach(
+        (pokemon) => {
+            // Parsing the URL to take the pokemon ID
+            const pokemonId = pokemon.url.split("/")[6];
+            // Creating the HTML item to visualize the pokemon
+            const listItem = document.createElement("div");
+            listItem.className = "listItem";
+            listItem.innerHTML = `
+            <div class="number-wrap">
+                <p class="caption-fonts">#${pokemonId}</p>
+            </div>
+            <div class="image-wrap">
+                <img src="https://raw.githubusercontent.com/pokeapi/sprites/master/sprites/pokemon/other/dream-world/${pokemonId}.svg" alt="Pokemon image"/>
+            </div>
+            <div class="name-wrap">
+                <p class="body3-fonts">#${pokemon.name}</p>
+            </div>
+            `;
+
+            listItem.addEventListener("click", async () => {
+                const success = await fetchPokemonDataBeforeRedirect(pokemonId);
+
+                if (success) {
+                    window.location.href = `./detail.html?id=${pokemonId}`;
+                }
+
+            });
+
+            listWrapper.appendChild(listItem);
+        }
+    )
 }
