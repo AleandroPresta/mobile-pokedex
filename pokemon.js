@@ -69,6 +69,7 @@ function displayPokemons(pokemon) {
             </div>
             `;
 
+            // Redirecting the user to a page that visualizes the info of the single pokemon when clicking on a pokemon
             listItem.addEventListener("click", async () => {
                 const success = await fetchPokemonDataBeforeRedirect(pokemonId);
 
@@ -78,6 +79,7 @@ function displayPokemons(pokemon) {
 
             });
 
+            // Appending the created item on the page
             listWrapper.appendChild(listItem);
         }
     )
