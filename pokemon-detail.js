@@ -180,10 +180,10 @@ function displayPokemonDetails(pokemon) {
     
     document.querySelectorAll("title").textContent = capitalizePokemonName;
 
-    const detailMainElement = document.querySelector("detail-main");
+    const detailMainElement = document.querySelector(".detail-main");
     detailMainElement.classList.add(name.toLowerCase());
 
-    document.querySelector("name-wrap .name").textContent = capitalizePokemonName;
+    document.querySelector(".   name-wrap .name").textContent = capitalizePokemonName;
 
     document.querySelector(".pokemon-id-wrap .body2-fonts").textContent = `#${String(id).padStart(3, "0")}`;
 
@@ -219,7 +219,53 @@ function displayPokemonDetails(pokemon) {
         }
     );
 
-    const
+    const statsWrapper = document.querySelector("stats-wrapper");
+    statsWrapper.innerHTML = "";
+
+    const statsNameMapping = {
+        hp: "HP",
+        attack: "ATK",
+        defense: "DEF",
+        "special-attack": "SATK",
+        "special-defense": "SDEF",
+        speed: "SPD",
+    };
+
+    stats.forEach(({stat, base_stat}) => {
+        const statDiv = document.createElement("div");
+        statDiv.className = "stats-wrap";
+        statsWrapper.appendChild(statDiv);
+
+        createAndAppendElement(statDiv, "p", {
+            className: "body3-fonts stats",
+            textContent: statsNameMapping[stat.name],
+        });
+
+        createAndAppendElement(statDiv, "p", {
+            className: "body3-fonts",
+            textContent: String(base_stat).padStart(3, "0"),
+        });
+
+        createAndAppendElement(statDiv, "progress", {
+            className: "progress-bar",
+            value: base_stat,
+            max: 100,
+        });
+    });
+
+    setTypeBackgroundColor(pokemon);
+
+}
+
+function getEnglishFlavorText(pokemonSpecies) {
+    for (let entry of pokemonSpecies.flavor_text_entries) {
+        if(entry.language.name === "en") {
+            let flavor = entry.flavor_text.replace(/\f/g, "");
+            return flavor;
+        }
+    }
+
+    return ""; 
 }
 
 
